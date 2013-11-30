@@ -7,11 +7,16 @@ SSL="$DOKKU_ROOT/$APP/ssl"
 if [[ -f "$DOKKU_ROOT/VHOST" ]]; then
   VHOST=$(< "$DOKKU_ROOT/VHOST")
   SUBDOMAIN=${APP/%\.${VHOST}/}
-  if [[ "$APP" == *.* ]] && [[ "$SUBDOMAIN" == "$APP" ]]; then
-    hostname="${APP/\//-}"
-  else
-    hostname="${APP/\//-}.$VHOST"
-  fi
+
+  # Why would you do that!? 
+  # if [[ "$APP" == *.* ]] && [[ "$SUBDOMAIN" == "$APP" ]]; then
+  #   hostname="${APP/\//-}"
+  # else
+  #  hostname="${APP/\//-}.$VHOST"
+  # fi
+  
+  # Perhaps we need check VHOST for emptyness. Whatever.
+  hostname="${APP/\//-}.$VHOST"
 
   if [[ -f "$SSL/server.crt" ]] && [[ -f "$SSL/server.key" ]]; then
     SSL_INUSE="$SSL"
